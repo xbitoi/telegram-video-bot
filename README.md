@@ -9,7 +9,7 @@
 
 ## English
 
-Download videos and audio from **YouTube, TikTok, Facebook, Instagram** and 1000+ other supported sites, straight through Telegram — with a full web admin dashboard.
+Download videos and audio from **YouTube, TikTok, Facebook, Instagram** and more other supported sites, straight through Telegram — with a full web admin dashboard.
 
 ### Features
 
@@ -43,7 +43,7 @@ Download videos and audio from **YouTube, TikTok, Facebook, Instagram** and 1000
 
 ## العربية
 
-حمّل الفيديو والصوت من **يوتيوب وتيك توك وفيسبوك وانستغرام** وأكثر من 1000 موقع مدعوم، مباشرة عبر تلغرام — مع لوحة تحكم ويب كاملة.
+حمّل الفيديو والصوت من **يوتيوب وتيك توك وفيسبوك وانستغرام**وأكثر من موقع مدعوم، مباشرة عبر تلغرام — مع لوحة تحكم ويب كاملة.
 
 ### المميزات
 
