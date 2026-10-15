@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clients — Video Bot</title>
+<style>body{margin:0;font-family:system-ui;background:#0b1020;color:#eef2ff}.wrap{max-width:900px;margin:0 auto;padding:24px 16px}table{width:100%;border-collapse:collapse}a{color:#8fb0ff}td,th{padding:9px;border-bottom:1px solid rgba(255,255,255,.12);text-align:left}.back{color:#9aa4c7}
+html[data-theme="day"] body{background:#eef1f7;color:#16204a}html[data-theme="day"] a{color:#3b5bff}
+html[data-theme="angel"] body{background:#fffdf4;color:#4a3a10}html[data-theme="angel"] a{color:#b98a12}
+html[data-theme="devil"] body{background:#0c0000;color:#ffe9e9}html[data-theme="devil"] a{color:#ff6b6b}</style>
+</head><body><script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('dash_theme')||'dark')}catch(e){}</script><div class="wrap">
+<a class="back" href="/">← Dashboard</a>
+<h1>Clients ({{ clients|length }})</h1>
+<table><tr><th>ID</th><th>Username</th><th>Lang</th><th>Blocked</th><th>Login</th><th>Downloads</th></tr>
+{% for c in clients %}
+<tr><td>{{ c.telegram_id }}</td><td><a href="/users/{{ c.telegram_id }}">@{{ c.username or '—' }}</a></td><td>{{ c.lang }}</td><td>{{ 'yes' if c.is_blocked else 'no' }}</td><td>{{ 'yes' if c.cookies_path else 'no' }}</td><td>{{ counts.get(c.id, 0) }}</td></tr>
+{% endfor %}
+</table>
+</div></body></html>

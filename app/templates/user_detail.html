@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Client {{ client.telegram_id }} — Video Bot</title>
+<style>body{margin:0;font-family:system-ui;background:#0b1020;color:#eef2ff}.wrap{max-width:900px;margin:0 auto;padding:24px 16px}table{width:100%;border-collapse:collapse;font-size:13px}a{color:#8fb0ff}td,th{padding:9px;border-bottom:1px solid rgba(255,255,255,.12);text-align:left}.tabs a{margin-right:8px;padding:6px 12px;border:1px solid rgba(255,255,255,.2);border-radius:999px;text-decoration:none}.tabs a.on{background:#6c8cff;color:#fff}.back{color:#9aa4c7}.err{color:#ff8a8a}
+html[data-theme="day"] body{background:#eef1f7;color:#16204a}html[data-theme="day"] a{color:#3b5bff}
+html[data-theme="angel"] body{background:#fffdf4;color:#4a3a10}html[data-theme="angel"] a{color:#b98a12}
+html[data-theme="devil"] body{background:#0c0000;color:#ffe9e9}html[data-theme="devil"] a{color:#ff6b6b}</style>
+</head><body><script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('dash_theme')||'dark')}catch(e){}</script><div class="wrap">
+<a class="back" href="/users">← Clients</a>
+<h1>@{{ client.username or client.telegram_id }} <small>({{ client.telegram_id }})</small></h1>
+<p>Login (cookies): <b>{{ 'saved' if client.cookies_path else 'none' }}</b> | Lang: {{ client.lang }} | Blocked: {{ 'yes' if client.is_blocked else 'no' }}</p>
+<div class="tabs">
+<a href="/users/{{ client.telegram_id }}?kind=all" class="{{ 'on' if kind=='all' else '' }}">All</a>
+<a href="/users/{{ client.telegram_id }}?kind=video" class="{{ 'on' if kind=='video' else '' }}">Video</a>
+<a href="/users/{{ client.telegram_id }}?kind=audio" class="{{ 'on' if kind=='audio' else '' }}">Audio</a>
+</div>
+<table><tr><th>ID</th><th>Date</th><th>URL</th><th>Platform</th><th>Type</th><th>Status</th><th>Error</th></tr>
+{% for d in items %}
+<tr><td>{{ d.id }}</td><td class="mut">{{ d.created_at.strftime('%Y-%m-%d %H:%M') if d.created_at else '' }}</td><td>{{ d.url[:50] }}</td><td>{{ d.platform }}</td><td>{{ d.file_type }}</td><td>{{ d.status }}</td><td class="err">{{ d.error_simple }}</td></tr>
+{% endfor %}
+</table>
+</div></body></html>

@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.env
+bot.db
+bot.db-journal
+downloads/
+cookies*.txt
+*.log
+bot.pid
+.venv/
+venv/

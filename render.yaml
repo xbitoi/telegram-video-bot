@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: video-bot-dashboard
+    runtime: docker
+    plan: free
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: ADMIN_IDS
+        sync: false

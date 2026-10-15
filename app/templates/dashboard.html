@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Video Bot Control Center 2026</title>
+<link rel="icon" href="/static/logo.svg" type="image/svg+xml">
+<style>
+:root,html[data-theme="dark"]{--bg:#0b1020;--card:rgba(255,255,255,.06);--line:rgba(255,255,255,.12);--txt:#eef2ff;--mut:#9aa4c7;--acc:#6c8cff;--acc2:#22d3a5;--warn:#ffb020;--bad:#ff5d5d;--bodybg:radial-gradient(1200px 600px at 80% -10%,#24306e 0%,transparent 60%),radial-gradient(900px 500px at 0% 0%,#0e3a3a 0%,transparent 55%),#0b1020;--inputbg:#0e1430}
+html[data-theme="day"]{--bg:#eef1f7;--card:rgba(255,255,255,.9);--line:rgba(20,30,80,.14);--txt:#16204a;--mut:#5b6a94;--acc:#3b5bff;--acc2:#0a9b6c;--warn:#b97a00;--bad:#d92d2d;--bodybg:linear-gradient(180deg,#f7f9ff,#e8edf8);--inputbg:#ffffff}
+html[data-theme="angel"]{--bg:#fffdf4;--card:rgba(255,255,255,.95);--line:rgba(150,115,20,.25);--txt:#4a3a10;--mut:#9a8a55;--acc:#b98a12;--acc2:#2e9e6b;--warn:#b97a00;--bad:#d92d2d;--bodybg:radial-gradient(1000px 500px at 50% -10%,#fff3c4 0%,transparent 60%),linear-gradient(180deg,#fffdf4,#f7ecc8);--inputbg:#fffef8}
+html[data-theme="devil"]{--bg:#0c0000;--card:rgba(255,45,45,.07);--line:rgba(255,45,45,.3);--txt:#ffe9e9;--mut:#c98a8a;--acc:#ff2d2d;--acc2:#ff8a3d;--warn:#ffb020;--bad:#ff2d2d;--bodybg:radial-gradient(1000px 500px at 50% -10%,#4d0a0a 0%,transparent 60%),#0c0000;--inputbg:#1a0505}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bodybg);color:var(--txt);min-height:100vh}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 18px 60px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--acc),#9b6cff);display:grid;place-items:center;font-size:22px}
+h1{font-size:22px;margin:0}.sub{color:var(--mut);font-size:13px;margin-top:4px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;backdrop-filter:blur(10px)}.stat b{font-size:26px}.stat span{color:var(--mut);font-size:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin:14px 0;backdrop-filter:blur(12px)}
+.card h2{margin:0 0 4px;font-size:17px}.card p.desc{color:var(--mut);font-size:13px;margin:0 0 12px}
+.row{display:flex;gap:10px;flex-wrap:wrap}.inp,select{background:var(--inputbg);border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:11px 12px;font-size:14px;flex:1;min-width:220px}
+.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;font-size:14px}
+.btn-p{background:linear-gradient(135deg,var(--acc),#9b6cff);color:#fff}.btn-g{background:rgba(34,211,165,.15);color:var(--acc2);border:1px solid rgba(34,211,165,.4)}.btn-o{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;border:1px solid var(--line);font-size:13px;color:var(--mut)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--warn)}.dot.ok{background:var(--acc2)}.dot.bad{background:var(--bad)}
+.linkbox{display:flex;gap:10px;align-items:center;background:#0e1430;border:1px dashed var(--acc);border-radius:12px;padding:10px 12px;margin-top:10px;flex-wrap:wrap}
+.linkbox a{color:#fff;font-weight:700;text-decoration:none}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:9px;border-bottom:1px solid var(--line);text-align:left}.mut{color:var(--mut)}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#101736;border:1px solid var(--line);padding:10px 16px;border-radius:999px;display:none}
+.footer{color:var(--mut);font-size:12px;text-align:center;margin-top:22px}
+.banner{display:flex;align-items:center;gap:12px;border-radius:16px;padding:14px 16px;margin:6px 0 4px;border:1px solid var(--line);font-weight:700}
+.banner.ok{background:rgba(34,211,165,.12);border-color:rgba(34,211,165,.5)}
+.banner.bad{background:rgba(255,93,93,.10);border-color:rgba(255,93,93,.5)}
+.banner.warn{background:rgba(255,176,32,.10);border-color:rgba(255,176,32,.5)}
+.savebar{position:sticky;top:10px;z-index:5;display:flex;gap:10px;justify-content:flex-end;margin:8px 0}
+.bell{position:relative}.badge{position:absolute;top:-6px;right:-6px;background:var(--bad);color:#fff;font-size:11px;border-radius:999px;padding:1px 7px;font-weight:800}
+.panel{display:none;position:absolute;right:0;top:44px;width:360px;max-height:320px;overflow:auto;background:#101736;border:1px solid var(--line);border-radius:14px;padding:10px;z-index:20}
+.panel.open{display:block}.panel .e{border-bottom:1px solid var(--line);padding:8px;font-size:12px}.panel .e b{color:#ffb0b0}
+table a{color:#8fb0ff}
+</style>
+</head>
+<body>
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('dash_theme')||'dark')}catch(e){}</script>
+<div class="wrap">
+<div class="top">
+<div class="brand"><div class="logo" style="background:none"><img src="/static/logo.svg" width="44" height="44" alt="logo"></div><div><h1 data-i18n="title">Video Bot Control Center</h1><div class="sub">2026 Edition — Telegram downloader + admin suite</div></div></div>
+<div class="row">
+<div class="bell"><button class="btn btn-o" type="button" onclick="toggleBell()">🔔 <span id="bellCount" class="badge" style="display:none">0</span></button>
+<div id="bellPanel" class="panel"><div class="mut">No errors</div></div></div>
+<a class="btn btn-o" href="/users" style="text-decoration:none">👥 Clients</a>
+<button class="btn btn-o" type="button" onclick="toggleLang()" id="langBtn">عربي</button>
+<div class="pill"><span id="statusDot" class="dot"></span><span id="statusTxt">{% if has_token %}Token saved{% else %}No token yet{% endif %}</span></div></div>
+</div>
+
+{% if bot_link %}
+<div class="banner ok"><span style="font-size:20px">●</span><span data-i18n="connected">Connected — bot is live:</span>&nbsp;<a id="botLinkTop" href="{{ bot_link }}" target="_blank" style="color:#fff">{{ bot_link }}</a></div>
+{% elif has_token %}
+<div class="banner warn"><span style="font-size:20px">●</span><span data-i18n="saved">Token saved — press Test connection to verify</span></div>
+{% else %}
+<div class="banner bad"><span style="font-size:20px">●</span><span data-i18n="notconnected">Not connected — paste token below</span></div>
+{% endif %}
+
+<div class="savebar" style="justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 14px">
+<div class="row" style="align-items:center">
+<span class="pill"><span class="dot {{ 'ok' if bot_running else 'bad' }}"></span>{{ 'Bot running 🟢' if bot_running else 'Bot stopped 🔴' }}</span>
+<form method="post" action="/bot/start"><button class="btn btn-g" type="submit">▶ Start</button></form>
+<form method="post" action="/bot/stop" onsubmit="return confirm('Stop the bot? Clients will get no replies.')"><button class="btn btn-o" type="submit">⏹ Stop</button></form>
+</div>
+<div class="row" style="align-items:center">
+<button class="btn btn-o" type="button" onclick="setTheme('dark')" title="Dark">🌙</button>
+<button class="btn btn-o" type="button" onclick="setTheme('day')" title="Day">☀️</button>
+<button class="btn btn-o" type="button" onclick="setTheme('angel')" title="Angelic">😇</button>
+<button class="btn btn-o" type="button" onclick="setTheme('devil')" title="Devilish">😈</button>
+<a class="btn btn-o" href="/export" style="text-decoration:none">📥 Export data</a>
+<button class="btn btn-p" type="button" onclick="saveAll()" data-i18n="saveall">💾 Save all data</button>
+</div>
+</div>
+
+<div class="grid">
+<div class="stat"><b>{{ users }}</b><br><span>Users</span></div>
+<div class="stat"><b>{{ downloads }}</b><br><span>Downloads</span></div>
+<div class="stat"><b>{{ failed_count }}</b><br><span>Failed</span></div>
+<div class="stat"><b>{% if bot_username %}@{{ bot_username }}{% else %}—{% endif %}</b><br><span>Bot</span></div>
+</div>
+
+<div class="card">
+<h2 data-i18n="s1">1 — Connect your bot</h2>
+<p class="desc">Paste token from BotFather, save it, then test the connection. The public link appears below for sharing with clients.</p>
+<form method="post" action="/token/save" class="row" id="tokenForm">
+<div class="field"><label>🔑 Bot token (from @BotFather)</label><input class="inp" type="password" name="bot_token" placeholder="123456:ABC-DEF..." autocomplete="off"><small>Paste the token, Save it, then Test connection.</small></div>
+</form>
+<div class="row" style="margin-top:10px">
+<button class="btn btn-p" type="button" onclick="document.getElementById('tokenForm').submit()">Save token</button>
+<button class="btn btn-o" type="button" onclick="testToken()">Test connection</button>
+</div>
+<div class="row" style="margin-top:10px">
+<span class="pill">Saved: {{ token_masked if token_masked else 'none' }}</span>
+<span class="pill">BotFather → /newbot → copy token</span>
+</div>
+<div id="botResult"></div>
+{% if botmsg %}
+<div class="banner {{ 'ok' if botmsg in ('started','stopped') else 'warn' }}"><span>{{ botmsg }}</span></div>
+{% endif %}
+{% if bcast.sent != '' %}
+<div class="banner {{ 'ok' if bcast.fail == '0' else 'warn' }}"><span>📣 Broadcast: ✅ {{ bcast.sent }} sent, ❌ {{ bcast.fail }} failed</span></div>
+{% endif %}
+{% if bot_link %}
+<div class="linkbox"><span class="mut">Public bot link:</span><a id="botLink" href="{{ bot_link }}" target="_blank">{{ bot_link }}</a><button class="btn btn-g" onclick="copyLink()">Copy link</button></div>
+{% endif %}
+<form method="post" action="/token/remove" onsubmit="return confirm('Disconnect bot and delete token?')" class="row" style="margin-top:10px">
+<button class="btn btn-o" type="submit" style="color:#ff8a8a;border-color:rgba(255,93,93,.5)">🔌 Remove token & disconnect</button>
+</form>
+</div>
+
+<div class="card">
+<h2>📣 Message to all clients</h2>
+<p class="desc">Broadcast a message to every unblocked client. You will see how many succeeded and failed.</p>
+<form method="post" action="/broadcast">
+<div class="field"><label>📣 Message text to all clients</label><input class="inp" name="bmessage" placeholder="Write your message to all clients..." maxlength="3000" required><small>Sent to every unblocked client. You will see ✅ sent and ❌ failed counts.</small></div>
+<div class="row" style="margin-top:10px"><button class="btn btn-p" type="submit">Send to all</button></div>
+</form>
+</div>
+
+<style>.field{display:flex;flex-direction:column;gap:6px;flex:1;min-width:220px}.field label{font-size:13px;font-weight:700}.field small{color:var(--mut);font-size:12px}</style>
+<div class="card">
+<h2 data-i18n="s2">2 — Settings</h2>
+<p class="desc">Limits and welcome texts used by the bot and dashboard. Every field is saved automatically with Save buttons.</p>
+<form method="post" action="/settings">
+<div class="row">
+<div class="field"><label>👋 Welcome message (English)</label><input class="inp" name="welcome_en" value="{{ cfg.get('welcome_en','') }}" placeholder="Shown to English clients"><small>Text shown by /start to English clients.</small></div>
+<div class="field"><label>👋 رسالة الترحيب (عربي)</label><input class="inp" name="welcome_ar" value="{{ cfg.get('welcome_ar','') }}" placeholder="تظهر للزبائن العرب"><small>النص الذي يظهر بامر /start للزبائن العرب.</small></div>
+</div>
+<div class="row" style="margin-top:10px">
+<div class="field"><label>🍪 YouTube cookies file path</label><input class="inp" name="cookies_file" value="{{ cookies_file }}" placeholder="cookies_youtube.txt"><small>Server login for YouTube, used for all clients. Or upload the file below.</small></div>
+</div>
+<div class="row" style="margin-top:10px"><button class="btn btn-p" type="submit">Save settings</button></div>
+</form>
+<form method="post" action="/cookies/upload" enctype="multipart/form-data">
+<div class="field"><label>📤 Upload cookies.txt (YouTube login for all clients)</label><input class="inp" type="file" name="cookies" accept=".txt" required><small>Export with 'Get cookies.txt LOCALLY' while logged in on youtube.com, then upload here.</small></div>
+<div class="row" style="margin-top:10px"><button class="btn btn-g" type="submit">Upload cookies</button></div>
+</form>
+<div class="row" style="margin-top:10px">
+{% if cookies_ok %}
+<span class="pill"><span class="dot ok"></span>YouTube cookies: active ({{ cookies_file }})</span>
+{% else %}
+<span class="pill"><span class="dot bad"></span>YouTube cookies: missing — downloads may fail with sign-in error</span>
+{% endif %}
+</div>
+</div>
+
+<div class="card">
+<h2>🔐 Dashboard login</h2>
+<p class="desc">Change the login or open the dashboard without a password (only on a trusted private network).</p>
+<form method="post" action="/settings">
+<div class="row">
+<div class="field"><label>👤 Username (current: {{ auth_user }})</label><input class="inp" name="dashboard_user" placeholder="New username (blank = keep)"><small>Leave blank to keep the current one.</small></div>
+<div class="field"><label>🔑 New password</label><input class="inp" type="password" name="dashboard_pass_new" placeholder="New password (blank = keep)" autocomplete="new-password"><small>Leave blank to keep the current password.</small></div>
+<div class="field"><label>🚪 Access mode</label><select class="inp" name="auth_disabled">
+<option value="0" {{ '' if auth_disabled else 'selected' }}>Password required 🔒</option>
+<option value="1" {{ 'selected' if auth_disabled else '' }}>Open without password ⚠️</option>
+</select><small>Open mode removes all protection.</small></div>
+</div>
+<div class="row" style="margin-top:10px"><button class="btn btn-p" type="submit">Save login</button></div>
+</form>
+</div>
+
+<div class="card">
+<h2 data-i18n="s3">3 — Latest downloads (all clients)</h2>
+<div class="row" style="margin-bottom:10px;align-items:center">
+<span class="pill">Page {{ page }} / {{ total_pages }}</span>
+{% if page > 1 %}<a class="btn btn-o" href="/?page={{ page - 1 }}" style="text-decoration:none">← Prev</a>{% endif %}
+{% if page < total_pages %}<a class="btn btn-o" href="/?page={{ page + 1 }}" style="text-decoration:none">Next →</a>{% endif %}
+</div>
+<div class="row" style="margin-bottom:10px">
+<form method="post" action="/history/clear" onsubmit="return confirm('Clear history?')" class="row">
+<input type="hidden" name="kind" value="all">
+<button class="btn btn-o" type="submit">🧹 Clear all history</button>
+</form>
+<form method="post" action="/history/clear" class="row">
+<input type="hidden" name="kind" value="failed">
+<button class="btn btn-o" type="submit">Clear failed only ({{ failed_count }})</button>
+</form>
+</div>
+<table><tr><th>ID</th><th>Client</th><th>URL</th><th>Platform</th><th>Type</th><th>Status</th></tr>
+{% for d in last %}
+<tr><td>{{ d.id }}</td><td>{{ names.get(d.user_id, '') }}</td><td class="mut">{{ d.url[:60] }}</td><td>{{ d.platform }}</td><td>{{ d.file_type }}</td><td>{{ d.status }}</td></tr>
+{% endfor %}
+</table>
+</div>
+<div class="card">
+<h2 data-i18n="s4">4 — Clients</h2>
+<p class="desc">Click a client to see everything they downloaded, with video/audio filter.</p>
+<table><tr><th>ID</th><th>Username</th><th>Lang</th><th>Downloads</th></tr>
+{% for c in clients %}
+<tr><td>{{ c.telegram_id }}</td><td><a href="/users/{{ c.telegram_id }}">@{{ c.username or '—' }}</a></td><td>{{ c.lang }}</td><td><b>{{ counts.get(c.id, 0) }}</b></td></tr>
+{% endfor %}
+</table>
+<p><a href="/users" style="color:#8fb0ff">View all clients →</a></p>
+</div>
+<div class="footer">Restart the bot process after changing token so polling uses the new key.<br>من تطوير <b>xboy</b> © 2026</div>
+</div>
+<div id="toast"></div>
+<script>
+function toast(m){var e=document.getElementById('toast');e.textContent=m;e.style.display='block';setTimeout(function(){e.style.display='none'},2500)}
+async function testToken(){
+var inp=document.querySelector('input[name=bot_token]');
+var body={};if(inp&&inp.value.trim().length>10){body={token:inp.value.trim()}}
+var r=await fetch('/token/test',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+var j=await r.json();
+var box=document.getElementById('botResult');
+if(j.ok){
+document.getElementById('statusDot').className='dot ok';
+document.getElementById('statusTxt').textContent='Connected @'+j.username;
+box.innerHTML='<div class="linkbox"><span>Connected as <b>'+j.name+' (@'+j.username+')</b></span><a href="'+j.link+'" target="_blank">'+j.link+'</a><button class="btn btn-g" onclick="copyLink()">Copy link</button></div>';
+toast('Connected');
+}else{document.getElementById('statusDot').className='dot bad';box.innerHTML='<p style="color:#ff8a8a">Failed: '+j.error+'</p>';toast('Test failed')}
+}
+function toggleBell(){var p=document.getElementById('bellPanel');var opening=!p.classList.contains('open');p.classList.toggle('open');loadErrors();if(opening){fetch('/api/errors/read',{method:'POST'}).then(function(){document.getElementById('bellCount').style.display='none'})}}
+async function loadErrors(){
+var r=await fetch('/api/errors');var j=await r.json();
+var b=document.getElementById('bellCount');
+if(j.count>0){b.style.display='inline';b.textContent=j.count}else{b.style.display='none'}
+var p=document.getElementById('bellPanel');
+if(j.count===0){p.innerHTML='<div class="mut">No errors</div>';return}
+p.innerHTML=j.errors.map(function(e){return '<div class="e"><b>'+e.kind+'</b> @ '+e.platform+' — '+e.client+'<br>'+e.url+'<br><span class="mut">'+e.at+' — '+e.detail.slice(0,200)+'</span></div>'}).join('');
+}
+setInterval(loadErrors,30000);loadErrors();
+function copyLink(){var a=document.getElementById('botLink');var t=a?a.textContent:document.querySelector('#botResult a').textContent;navigator.clipboard.writeText(t).then(function(){toast('Link copied')})}
+async function saveAll(){
+var t=document.querySelector('input[name=bot_token]').value.trim();
+var e=document.querySelector('input[name=welcome_en]').value;
+var a=document.querySelector('input[name=welcome_ar]').value;
+var c=document.querySelector('input[name=cookies_file]').value;
+var du=document.querySelector('input[name=dashboard_user]').value;
+var dpw=document.querySelector('input[name=dashboard_pass_new]').value;
+var ad=document.querySelector('select[name=auth_disabled]').value;
+var fd=new FormData();fd.append('bot_token',t);fd.append('welcome_en',e);fd.append('welcome_ar',a);fd.append('cookies_file',c);fd.append('dashboard_user',du);fd.append('dashboard_pass_new',dpw);fd.append('auth_disabled',ad);
+var r=await fetch('/save-all',{method:'POST',body:new URLSearchParams(fd)});
+if(r.redirected){location.href=r.url}else{location.reload()}
+toast('All data saved')}
+var I18N={en:{title:'Video Bot Control Center',saveall:'💾 Save all data',connected:'Connected — bot is live:',saved:'Token saved — press Test connection to verify',notconnected:'Not connected — paste token below',s1:'1 — Connect your bot',s2:'2 — Settings',s3:'3 — Latest downloads'},ar:{title:'مركز التحكم بالبوت',saveall:'💾 حفظ كل البيانات',connected:'متصل — البوت يعمل:',saved:'تم حفظ التوكن — اضغط اختبار الاتصال',notconnected:'غير متصل — الصق التوكن بالاسفل',s1:'1 — ربط البوت',s2:'2 — الاعدادات',s3:'3 — اخر التحميلات'}};
+var curLang=localStorage.getItem('dash_lang')||'en';
+function applyLang(){var d=I18N[curLang];document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(d[k])el.textContent=d[k]});document.getElementById('langBtn').textContent=curLang==='en'?'عربي':'EN';document.documentElement.dir=curLang==='ar'?'rtl':'ltr';localStorage.setItem('dash_lang',curLang)}
+function toggleLang(){curLang=curLang==='en'?'ar':'en';applyLang()}
+applyLang();
+function setTheme(n){try{localStorage.setItem('dash_theme',n)}catch(e){}document.documentElement.setAttribute('data-theme',n);toast(n)}
+</script>
+</body>
+</html>
